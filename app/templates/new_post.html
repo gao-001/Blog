@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Flasky{% endblock %}
+
+
+{% block page_content %}
+    <form class="d-block d-sm-none" method="POST" action="{{ url_for('main.new_post') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group row">
+            <lable><strong>主题</strong></lable>
+            {{ form.topic(class="form-control",autocomplete="off") }}
+        </div>
+
+        <div class="form-group">
+            <lable><strong>内容</strong></lable>
+            {{ form.body(class="form-control",placeholder="要说点什么") }}
+        </div>
+
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+
+
+    <form class="d-none d-sm-block" method="POST" action="{{ url_for('main.new_post') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group row">
+
+            <lable class="col-auto col-form-label"><strong>主 题</strong></lable>
+            <div class="col">
+                {{ form.topic(class="form-control",autocomplete="off") }}
+            </div>
+        </div>
+        <div id="fancy-editormd">
+            {{ form.body(style="display:none;") }}
+        </div>
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+{% endblock %}
+
+
+

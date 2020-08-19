@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div>
+    <div class="btn-group offset-md-5 col-md-2 my-3" role="group" aria-label="Basic example">
+        <button type="button" onclick="baidu()" class="btn btn-outline-primary">Baidu</button>
+        <button type="button" onclick="google()" class="btn btn-outline-primary">Google</button>
+    </div>
+    <br><br>
+    <form id="baidu" action="http://www.baidu.com/baidu" class="form-inline" target="_blank">
+        <div class="input-group col-md-6 offset-md-3 ">
+            <input id="change" name='word' type="text" class="form-control" autocomplete="off">
+            <div class="input-group-append">
+                <button id="text" type="submit" class="btn btn-outline-primary"
+                        style="background-color:#4E6EF2;color: white">Baidu搜索
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="row text-center justify-content-center mx-4" style="margin-top: 20px">
+        <div class="col-lg  bg-secondary my-md-3 mx-md-3 p-md-3" style="border-radius: 15px;">
+            <p class="text-center text-light font-weight-bold">Python 学习</p>
+            <div class="row row-cols-3 ">
+                <div class="col ">
+                    <a class="text-light" href="https://www.runoob.com/">菜鸟教程</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://www.csdn.net/">CSDN</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://v3.bootcss.com/">Bootstrap3</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://v4.bootcss.com/">Bootstrap4</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://www.fontke.com/tool/rgb/d0e4fe/">字客网</a></div>
+                <div class="col">
+                    <a class="text-light" href="http://www.iocoder.cn/">芋道源码</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://www.cnblogs.com/">博客园</a></div>
+                <div class="col"><a class="text-light"
+                                    href="https://www.cnblogs.com/zhangzhu/p/3172486.html">Mysql命令</a></div>
+                <div class="col"><a class="text-light" href="https://www.w3school.com.cn/">W3school</a></div>
+                <div class="col"><a class="text-light" href="http://www.fontawesome.com.cn/faicons/">图标库</a></div>
+                <div class="col"><a class="text-light" href="http://www.a-ui.cn/website.html">网站模板</a></div>
+                <div class="col"><a class="text-light" href="http://www.bitbug.net/">制作icon图标</a></div>
+            </div>
+        </div>
+
+        <div class="col-lg  bg-secondary my-md-3 mx-md-3 p-md-3" style="border-radius: 15px;">
+            <p class="text-center text-light font-weight-bold">娱乐</p>
+            <div class="row row-cols-3">
+                <div class="col">
+                    <a class="text-light" href="https://www.douyu.com/?ptag=gouzai">斗鱼TV</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://xydh.fun/">炫猿导航</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://ai.baidu.com/">百度AI</a></div>
+                <div class="col">
+                    <a class="text-light" href="https://www.staticfile.org/">Staticfile CDN</a>
+                </div>
+                <div class="col">
+                    <a class="text-light" href="https://www.toptal.com/designers/subtlepatterns/">背景图片</a>
+                </div>
+                <div class="col">
+                    <a class="text-light" href="file:///C:/百度网盘/130道python练习题/130道python练习题/130道python练习题.html">Python练习题</a>
+                </div>
+                <div class="col">
+                    <a class="text-light"
+                       href="https://blog.csdn.net/GitChat/article/details/104765136?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase">Python面试题</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center justify-content-center mx-4" style="margin-top: 20px">
+        <div class="col-lg  bg-secondary my-md-3 mx-md-3 p-md-3" style="border-radius: 15px;">
+            <p class="text-center text-light font-weight-bold">我的应用</p>
+            <div class="row row-cols-3">
+                <div class="col"><a class="text-light" href="https://secure-mesa-42927.herokuapp.com/">My Blog</a></div>
+
+
+                <div class="col"><a class="text-light" href="http://www.gaocode.top/">云端app</a></div>
+
+
+                <div class="col"><a class="text-light" href="https://www.aliyun.com/">阿里云</a></div>
+
+
+                <div class="col"><a class="text-light" href="http://8.210.195.89:65432/">V2ray</a></div>
+            </div>
+        </div>
+        <div class="col-lg  bg-secondary my-md-3 mx-md-3 p-md-3 invisible" style="border-radius: 15px;"></div>
+    </div>
+    <hr>
+    <footer>
+        <br>
+        <!--<p>Gao，がんばる</p>-->
+        <script>
+            document.write(Date())
+        </script>
+
+    </footer>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static',filename='my_js.js') }}"></script>
+{% endblock %}

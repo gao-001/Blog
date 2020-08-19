@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import '_macros.html' as macros %}
+{% block title %}Flasky - Post{% endblock %}
+
+{% block page_content %}
+    {% include '_posts.html' %}
+    <h4 id="comments">Comment</h4>
+    {% if current_user.can(Permission.COMMENT) %}
+
+        <form action="{{ url_for('.post',id=posts[0].id) }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label>创建一条评论</label>
+                {{ form.body(class='form-control',autocomplete="off") }}
+            </div>
+        </form>
+        {{ form.submit(class='btn btn-info') }}
+        </form>
+    {% endif %}
+    {% include '_comments.html' %}
+    {% if pagination %}
+
+            {{ macros.pagination_widget(pagination,'.post',fragment='#comment',id=posts[0].id) }}
+    {% endif %}
+{% endblock %}

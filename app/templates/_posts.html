@@ -1,0 +1,133 @@
+<div>
+    {% for post in posts %}
+        <div class="overflow-auto  mb-3 p-2 bg-white">
+            <div class="post-body">
+
+                    <div class="page-header mb-2">
+                        <p class="h4 text-center text-info">
+                            <strong>{{ post.topic | striptags|capitalize }}</strong>
+                        </p>
+                    </div>
+
+                <div class="overflow-auto" id="fancy-content" style="font-size: medium">
+                    {% if post.body_html %}
+                        {{ post.body_html |safe }}
+                    {% else %}
+                        {{ post.body }}
+                    {% endif %}
+                </div>
+
+                <div class="clearfix" style="padding-top: 10px">
+                    <div class="float-left">
+                        <a href="{{ url_for('.user',username=post.author.username) }}">
+                            <img class="" style="border-radius: 50%;"
+                                 src="{{ post.author.gravatar(size=25) }}">
+                        </a>
+                        <a href="{{ url_for('.user',username=post.author.username) }}">
+                            <strong>{{ post.author.username }}</strong>
+                        </a>
+                    </div>
+
+
+                    <div class="float-right">
+                        {% if current_user.is_authenticated %}
+
+                            {% if mark_query %}
+                                <a href="{{ url_for('main.cancel_mark',post_id=post.id,mark_id=mark_query.id) }}"
+                                   onclick="return confirm('确定取消收藏？')">
+                                    <svg width="20" height="20" viewBox="0 0 16 16" class="bi bi-bookmark-fill"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M3 3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12l-5-3-5 3V3z"/>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <a data-toggle="modal" data-target="#Bookmarks">
+                                    <svg width="20" height="20" viewBox="0 0 16 16" class="bi bi-bookmark"
+                                         fill="currentColor"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
+                                    </svg>
+                                </a>
+                            {% endif %}
+
+                        {% endif %}
+
+                        <div class="btn-group">
+                            <a href="{{ url_for('.post',id=post.id) }}" class="btn btn-info btn-sm">
+                                阅读更多
+                            </a>
+                            {% if current_user == post.author %}
+                                <a href="{{ url_for('.delete',id=post.id) }}" onclick="return confirm('确定删除这条博客?')">
+                                    <button type="button" class="btn btn-info btn-sm">删除</button>
+                                </a>
+                                <!-- Modal -->
+
+                                <a href="{{ url_for('.edit',id=post.id) }} " class="btn btn-info btn-sm">
+                                    编辑
+                                </a>
+                            {% elif current_user.is_administrator() %}
+                                <!-- <a href="{{ url_for('.delete',id=post.id) }}">
+                    <span  class="label label-danger">Delete [admin]</>
+                </a>-->
+                                <a href="{{ url_for('.edit',id=post.id) }}" class="btn btn-danger btn-sm">
+                                    编辑 [admin]
+                                </a>
+                            {% endif %}
+
+                            <a href="{{ url_for('.post',id=post.id) }}#comments" class="btn btn-info btn-sm">
+                                评论<span class="badge"> {{ post.comments.count() }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="Bookmarks">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6>收藏夹</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% if current_user.is_authenticated %}
+                            {% for mark in current_user.marks.all() %}
+                                <div>{{ mark.name }}
+                                    <a class="btn btn-sm btn-info" style="float: right"
+                                       href="{{ url_for('main.post_to_bookmarks',post_id=post.id,bookmarks_id=mark.id) }}">收藏</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <form class="mt-4" action="{{ url_for('main.post',id=post.id) }}"
+                              method="post">
+                            {{ form2.hidden_tag() }}
+                            <div class="input-group">
+                            {{ form2.name(class="form-control form-control-sm rounded",placeholder='新建收藏夹',autocomplete="off") }}
+                            <div class="input-group-append">
+                                {{ form2.submit(class="btn btn-primary btn-sm") }}
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    function rec() {
+        if (confirm("Are you sure delete the post？")) {
+            a.setAttribute("onclick", '');
+            return true;
+        }
+        return false;
+    }
+</script>

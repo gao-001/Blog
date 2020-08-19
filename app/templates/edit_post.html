@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Edit Post{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>Edit Post</h1>
+    </div>
+    <form method="POST" action="{{ url_for('.edit',id=post.id) }}">
+        <div class="form-group row">
+            {{ form.hidden_tag() }}
+            <lable class="col-auto col-form-label"><strong>主 题</strong></lable>
+            <div class="col">
+                {{ form.topic(class="form-control") }}
+            </div>
+        </div>
+        <div id="fancy-editormd2">
+            {{ form.body }}
+        </div>
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+
+{% endblock %}

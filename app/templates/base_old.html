@@ -1,0 +1,108 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block navbar %}
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Blog</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('main.personal_index') }}" target="_blank">Home</a></li>
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('main.user',username=current_user.username) }}">
+                            Profile</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if not current_user.is_authenticated %}
+                        <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a data-toggle="dropdown">
+                                <b>Account</b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if current_user.can(Permission.MODERATE) %}
+                                    <li role="presentation"><a href="{{ url_for('main.moderate') }}">Moderate
+                                        Comments</a>
+                                    </li>
+                                {% endif %}
+                                {% if current_user.is_authenticated %}
+                                    <li role="presentation" class="divider"></li>
+                                    <li role="presentation"><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                                {% else %}
+                                    <li role="presentation"><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" style="margin-left: 400px">
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-8">
+            {% block page_content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+            <h2>相关链接</h2>
+            <ul style="list-style-type: none;padding-top: 10px">
+                <li style="padding-top: 10px"><a href="{{ url_for('main.new_post') }}"
+                                                 class="btn btn-success">MarkDown</a></li>
+                <li style="padding-top: 10px"><a href="https://www.runoob.com/" class="btn btn-success">菜鸟教程</a></li>
+                <li style="padding-top: 10px"><a href="https://www.csdn.net/" class="btn btn-success">CSDN</a></li>
+                <li style="padding-top: 10px"><a href="https://v3.bootcss.com/" class="btn btn-success">Bootstrap3</a>
+                </li>
+                <li style="padding-top: 10px"><a href="https://getbootstrap.net/" class="btn btn-success">Bootstrap4</a>
+                </li>
+                <li style="padding-top: 10px"><a href="https://www.fontke.com/tool/rgb/d0e4fe/" class="btn btn-success">字客网</a>
+                </li>
+                <li style="padding-top: 10px"><a href="http://www.iocoder.cn/" class="btn btn-success">芋道源码</a></li>
+                <li style="padding-top: 10px"><a href="https://www.cnblogs.com/" class="btn btn-success">博客园</a></li>
+                <li style="padding-top: 10px"><a href="https://www.cnblogs.com/zhangzhu/p/3172486.html"
+                                                 class="btn btn-success">Mysql命令</a></li>
+                <li style="padding-top: 10px"><a href="https://www.w3school.com.cn/"
+                                                 class="btn btn-success">W3school</a></li>
+                <li style="padding-top: 10px"><a href="http://www.fontawesome.com.cn/faicons/" class="btn btn-success">图标库</a>
+                </li>
+                <li style="padding-top: 10px"><a href="http://www.a-ui.cn/website.html" class="btn btn-success">网站模板</a>
+                </li>
+                <li style="padding-top: 10px"><a href="http://www.bitbug.net/" class="btn btn-success">制作icon图标</a></li>
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}

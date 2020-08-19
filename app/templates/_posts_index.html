@@ -1,0 +1,67 @@
+<div>
+    {% for post in posts %}
+        <div class="overflow-hidden border-bottom" style="margin-bottom:10px;padding: 10px;width: 100%">
+            <div class="post-body">
+                <div class="clearfix" style="padding-bottom:10px ">
+                    <div class="page-header float-left">
+                        <a class="h5 text-info" href="{{ url_for('.post',id=post.id) }}" style="text-decoration: none"
+                        ><strong>{{ post.topic | striptags}}</strong></a>
+                    </div>
+                    <div class="float-right">{{ moment(post.timestamp).fromNow() }}</div>
+                </div>
+            </div>
+            <div class="overflow-hidden">
+                {% if post.body_html %}
+                    {{ post.body_html |safe| striptags |truncate(223)}}
+                {% else %}
+                    {{ post.body }}
+                {% endif %}
+            </div>
+            <div class="clearfix" style="padding-top: 10px">
+                <div class="float-left">
+                    <a href="{{ url_for('.user',username=post.author.username) }}">
+                        <img class="" style="border-radius: 50%;"
+                             src="{{ post.author.gravatar(size=25) }}">
+                    </a>
+                    <a href="{{ url_for('.user',username=post.author.username) }}">
+                        <strong>{{ post.author.username }}</strong>
+                    </a>
+                </div>
+
+
+                <div class="btn-group" style="float: right">
+                    <a href="{{ url_for('.post',id=post.id) }}" class="btn btn-info btn-sm">
+                        阅读更多
+                    </a>
+                    {% if current_user == post.author %}
+                        <a href="{{ url_for('.delete',id=post.id) }}"
+                           class="btn btn-info btn-sm" onclick="return confirm('确定删除这条博客?')">
+                            删除</a>
+                        <!-- Modal -->
+
+                        <a href="{{ url_for('.edit',id=post.id) }} " class="btn btn-info btn-sm">
+                            编辑
+                        </a>
+                    {% elif current_user.is_administrator() %}
+                        <!-- <a href="{{ url_for('.delete',id=post.id) }}">
+                    <span  class="label label-danger">Delete [admin]</>
+                </a>-->
+                        <a href="{{ url_for('.edit',id=post.id) }}" class="btn btn-danger btn-sm">
+                            编辑 [admin]
+                        </a>
+                    {% endif %}
+
+                    <a href="{{ url_for('.post',id=post.id) }}#comments" class="btn btn-info btn-sm">
+                        评论{{ post.comments.count() }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+

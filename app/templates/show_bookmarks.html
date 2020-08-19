@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block page_content %}
+    <div class="row">
+    <form class="col-lg-4 offset-lg-8 mb-md-3" action="{{ url_for('main.show_bookmarks') }}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="input-group">
+        {{ form.name(class="form-control",placeholder='新建收藏夹',autocomplete="off") }}
+        <div class="input-group-append">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+        </div>
+    </form>
+    </div>
+
+    {% for mark in bookmarks %}
+        <div class="p-lg-2">
+            <div class="text-dark h4">{{ mark.name }}
+            <a class="text-muted" href="{{ url_for('main.delete_bookmarks',id=mark.id) }}"
+               onclick="return confirm('确定删除该收藏夹？')">&times;</a></div>
+        </div>
+        {% for post in mark.posts %}
+            <div class="p-lg-2">
+
+                <a class="h6 text-secondary" style="text-decoration: none"
+                   href="{{ url_for('.post',id=post.id) }}">{{ post.topic | striptags|capitalize }}</a>
+                <a class="btn btn-sm btn-outline-info float-right"
+                   href="{{ url_for('main.cancel_mark',post_id=post.id,mark_id=mark.id) }}"
+                   onclick="return confirm('确定取消收藏？')">取消收藏</a>
+            </div>
+        {% endfor %}
+        <hr>
+    {% endfor %}
+{% endblock %}

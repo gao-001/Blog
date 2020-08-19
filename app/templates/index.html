@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% import "_macros.html" as macros %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<div class="bg-white">
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+        <h1 class="display-4">{{ post_deploy.topic }}</h1>
+
+        <p class="lead"><a class="text-white font-weight-bold" href="{{ url_for('main.post',id=2) }}">Continue reading...</a></p>
+    </div>
+    <div class="row mb-2 p-2">
+        <div id="demo" class="col-md-6 carousel slide overflow-hidden position-relative" data-ride="carousel">
+
+            <!-- 指示符
+            <ol class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+                <li data-target="#demo" data-slide-to="3"></li>
+            </ol>-->
+
+            <!-- 轮播图片 -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+
+
+                    <div class="rounded h-md-250">
+                        <div class="p-4 d-flex flex-column position-static bg-light rounded">
+                            <h3 class="mb-0">{{ post_generate.topic }}</h3>
+                            <div class="mb-1 text-muted">{{ moment(post_generate.timestamp).format('L') }}</div>
+                            <p class="mb-auto">{{ post_generate.body_html |striptags|truncate(200) }}</p>
+                            <a href="{{ url_for('main.post',id=4) }}" class="stretched-link text-muted">继续阅读</a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="carousel-item">
+
+                    <div class="rounded h-md-250 ">
+                        <div class="p-4 d-flex flex-column position-static bg-light rounded">
+                            <h3 class="mb-0">{{ post_flask.topic }}</h3>
+                            <div class="mb-1 text-muted">{{ moment(post_flask.timestamp).format('L') }}</div>
+                            <p class="mb-auto">{{ post_flask.body_html |striptags|truncate }}</p>
+                            <a href="{{ url_for('main.post',id=5) }}" class="stretched-link text-muted">继续阅读</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="carousel-item">
+
+                    <div class="rounded h-md-250 ">
+                        <div class="p-4 d-flex flex-column position-static bg-light rounded">
+                            <h3 class="mb-0">{{ post_wrapper.topic }}</h3>
+                            <div class="mb-1 text-muted">{{ moment(post_git.timestamp).format('L') }}</div>
+                            <p class="mb-auto">{{ post_wrapper.body_html |striptags|truncate }}</p>
+                            <a href="{{ url_for('main.post',id=3) }}" class="stretched-link text-muted">继续阅读</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 左右切换按钮 -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon" ></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+        <div class="col-md-6 d-none d-sm-block ">
+
+            <div class="h-md-250">
+                <div class="p-4 d-flex flex-column position-static bg-light rounded">
+                    <h3 class="mb-0">{{ post_git.topic }}</h3>
+                    <div class="mb-1 text-muted">{{ moment(post_git.timestamp).format('L') }}</div>
+                    <p class="mb-auto">{{ post_git.body_html |striptags|truncate }}</p>
+                    <a href="{{ url_for('main.post',id=1) }}" class="stretched-link text-muted">继续阅读</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 border-right">
+            <div class="choice text-secondary m-md-2">
+                <a class="mr-2  {% if not show_followed %}active{% endif %}"
+                   href="{{ url_for('.show_all') }}">全部</a>
+                {% if current_user.is_authenticated %}
+                    <a class=" {% if  show_followed %}active{% endif %}" href="
+        {{ url_for('.show_followed') }}">关注</a>
+                {% endif %}
+            </div>
+            {% include '_posts_index.html' %}
+            {% if pagination %}
+                {{ macros.pagination_widget(pagination, '.index') }}
+            {% endif %}
+        </div>
+
+        <div class="col-md-4 blog-sidebar">
+            <div class="p-4 mr-2 bg-light rounded">
+                <h4 class="font-italic">About</h4>
+                <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus
+                    sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            </div>
+
+            <div class="p-4">
+                <h4 class="font-italic">Archives</h4>
+                <ol class="list-unstyled mb-0">
+                    <li><a href="#">富强</a></li>
+                    <li><a href="#">民主</a></li>
+                    <li><a href="#">文明</a></li>
+                    <li><a href="#">和谐</a></li>
+                    <li><a href="#">自由</a></li>
+                    <li><a href="#">平等</a></li>
+                    <li><a href="#">公正</a></li>
+                    <li><a href="#">法制</a></li>
+                    <li><a href="#">爱国</a></li>
+                    <li><a href="#">敬业</a></li>
+                    <li><a href="#">诚信</a></li>
+                    <li><a href="#">友善</a></li>
+                </ol>
+            </div>
+
+            <div class="p-4">
+                <h4 class="font-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li><a href="https://github.com/gao-001">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </div><!-- /.blog-sidebar -->
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+{% endblock %}

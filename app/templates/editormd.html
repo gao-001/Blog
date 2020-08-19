@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <h4>Markdown 在线编辑工具</h4>
+    <br>
+    <div id="test-editormd">
+            <textarea style="display:none;">
+### Disabled options
+
+- TeX (Based on KaTeX);
+- Emoji;
+- Task lists;
+
+### Code
+
+```python
+from yaml import safe_load
+
+with open(filename, 'r') as f:
+    vars_string = f.read()
+base_vars = safe_load(vars_string)
+```
+### Images
+
+</textarea>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        var testEditor;
+        $(function () {
+            testEditor = editormd("test-editormd", {
+                syncScrolling: "single",
+                path: "{{ url_for('static',filename='editormd/lib/') }}"
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block page_content %}
+    <form class="col-md-6 offset-lg-3 mt-4" method="POST" action="{{ url_for('main.new_bookmarks') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group row">
+            <label class="col-auto col-form-label"><strong>标 题</strong></label>
+            {{ form.name(class="form-control col",autocomplete="off") }}
+        </div>
+        {{ form.submit(class="btn btn-primary btn-sm") }}
+    </form>
+
+{% endblock %}
+
+
